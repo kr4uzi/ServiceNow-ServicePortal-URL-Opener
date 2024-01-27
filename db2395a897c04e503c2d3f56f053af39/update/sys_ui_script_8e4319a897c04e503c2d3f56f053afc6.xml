@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?><record_update table="sys_ui_script">
+    <sys_ui_script action="INSERT_OR_UPDATE">
+        <active>true</active>
+        <description/>
+        <global>false</global>
+        <ignore_in_now_experience>false</ignore_in_now_experience>
+        <name>x_376096_scp_url.add_url_opener</name>
+        <script><![CDATA[var x_376096_scp_url = x_376096_scp_url || {};
+x_376096_scp_url.add_url_opener = (function() {
+	"use strict";
+
+	/* eslint no-undef: "error" */
+	if (x_376096_scp_url.add_url_opener) {
+		return x_376096_scp_url.add_url_opener;
+	}
+	
+	x_376096_scp_url.loader.get('window', function ($window) {
+		$window.addLoadEvent(function () {
+			if (!$window.g_form) {
+				return;
+			}
+
+			const urlFields = $window.g_form.elements
+				.filter(e => e.type == 'sc_url')
+				.map(e => e.fieldName)
+			;
+			urlFields.forEach(function (technicalName) {
+				const prettyName = $window.g_form.resolvePrettyNameMap(technicalName);
+				const control = $window.g_form.getControl(technicalName);
+				if (control && prettyName) {
+					const linkOpener = control.ownerDocument.createElement('A');
+					linkOpener.classList.add('btn', 'btn-default', 'btn-ref', 'icon-open-document-new-tab', 'icon');
+					linkOpener.addEventListener('click', function () {
+						const fieldValue = $window.g_form.getValue(prettyName);
+						if (fieldValue) {
+							$window.g_navigation.open(fieldValue, '_blank');
+						}
+					});
+
+					const linkOpenerContainer = control.ownerDocument.createElement('SPAN');
+					linkOpenerContainer.classList.add('input-group-btn');
+					linkOpenerContainer.appendChild(linkOpener);
+					
+					const column = control.parentNode;
+					column.appendChild(linkOpenerContainer);
+					
+					if ($window.isPolaris()) {
+						var inputGroup = control.ownerDocument.createElement('SPAN');
+						inputGroup.classList.add('input-group');
+
+						while (column.firstChild) {
+							inputGroup.appendChild(column.firstChild);
+						}
+						
+						column.appendChild(inputGroup);
+					} else {
+						column.classList.add('input-group');
+					}
+				}
+			});
+		});
+	});
+
+	return {
+		type: 'add_url_opener'
+	};
+})();
+]]></script>
+        <script_name>add_url_opener</script_name>
+        <sys_class_name>sys_ui_script</sys_class_name>
+        <sys_created_by>markus.kraus</sys_created_by>
+        <sys_created_on>2024-01-26 23:49:12</sys_created_on>
+        <sys_id>8e4319a897c04e503c2d3f56f053afc6</sys_id>
+        <sys_mod_count>10</sys_mod_count>
+        <sys_name>x_376096_scp_url.add_url_opener</sys_name>
+        <sys_package display_value="Service Catalog+ URL Opener" source="x_376096_scp_url">db2395a897c04e503c2d3f56f053af39</sys_package>
+        <sys_policy/>
+        <sys_scope display_value="Service Catalog+ URL Opener">db2395a897c04e503c2d3f56f053af39</sys_scope>
+        <sys_update_name>sys_ui_script_8e4319a897c04e503c2d3f56f053afc6</sys_update_name>
+        <sys_updated_by>markus.kraus</sys_updated_by>
+        <sys_updated_on>2024-01-27 00:34:15</sys_updated_on>
+        <ui_type>0</ui_type>
+        <use_scoped_format>true</use_scoped_format>
+    </sys_ui_script>
+</record_update>

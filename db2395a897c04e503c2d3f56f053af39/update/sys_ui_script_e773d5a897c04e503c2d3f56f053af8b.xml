@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?><record_update table="sys_ui_script">
+    <sys_ui_script action="INSERT_OR_UPDATE">
+        <active>true</active>
+        <description/>
+        <global>true</global>
+        <ignore_in_now_experience>false</ignore_in_now_experience>
+        <name>x_376096_scp_url.loader</name>
+        <script><![CDATA[var x_376096_scp_url = x_376096_scp_url || {};
+x_376096_scp_url.loader = (function() {
+	"use strict";
+	
+	/* global window, setTimeout */
+	/* eslint no-undef: "error" */
+	if (x_376096_scp_url.loader) {
+		return x_376096_scp_url.loader;
+	}
+	
+	const scpURLVersion = '1.0.0';
+	const resources = {};
+	const resourceCallbacks = {};
+	
+	if (typeof window !== 'undefined' && window) {
+		resources['window'] = window;
+	} else {
+		setTimeout(function () {
+			setResource('window', this);
+		});
+	}
+	
+	createScript('x_376096_scp_url.add_url_opener.jsdbx?v=' + scpURLVersion);
+
+	return {
+		version: scpURLVersion,
+		get: getResource,
+		set: setResource,
+		type: 'loader'
+	};
+	
+	function getResource(resource, callback) {
+		if (resource in resources) {
+			if (callback) {
+				callback(resources[resource]);
+			} else {
+				return resources[resource];
+			}
+		} else if (callback) {
+			if (!(resource in resourceCallbacks)) {
+				resourceCallbacks[resource] = [];
+			}
+			
+			resourceCallbacks[resource].push(callback);
+		}
+	}
+	
+	function setResource(resource, value) {
+		resources[resource] = value;
+		(resourceCallbacks[resource] || []).forEach(function (callback) {
+			callback(value);
+		});
+	}
+	
+	function createScript(src) {
+		getResource('window', function ($window) {
+			const script = $window.document.createElement('script');
+			script.src = src;
+			$window.document.head.appendChild(script);
+		});
+	}
+})();
+]]></script>
+        <script_name>loader</script_name>
+        <sys_class_name>sys_ui_script</sys_class_name>
+        <sys_created_by>markus.kraus</sys_created_by>
+        <sys_created_on>2024-01-26 23:49:58</sys_created_on>
+        <sys_id>e773d5a897c04e503c2d3f56f053af8b</sys_id>
+        <sys_mod_count>4</sys_mod_count>
+        <sys_name>x_376096_scp_url.loader</sys_name>
+        <sys_package display_value="Service Catalog+ URL Opener" source="x_376096_scp_url">db2395a897c04e503c2d3f56f053af39</sys_package>
+        <sys_policy/>
+        <sys_scope display_value="Service Catalog+ URL Opener">db2395a897c04e503c2d3f56f053af39</sys_scope>
+        <sys_update_name>sys_ui_script_e773d5a897c04e503c2d3f56f053af8b</sys_update_name>
+        <sys_updated_by>markus.kraus</sys_updated_by>
+        <sys_updated_on>2024-01-26 23:53:34</sys_updated_on>
+        <ui_type>0</ui_type>
+        <use_scoped_format>true</use_scoped_format>
+    </sys_ui_script>
+</record_update>
