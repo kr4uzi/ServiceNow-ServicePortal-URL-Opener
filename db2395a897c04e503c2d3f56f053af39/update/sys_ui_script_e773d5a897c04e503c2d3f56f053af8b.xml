@@ -15,7 +15,7 @@ x_376096_scp_url.loader = (function() {
 		return x_376096_scp_url.loader;
 	}
 	
-	const scpURLVersion = '1.0.0';
+	const scpURLVersion = '1.0.1';
 	const resources = {};
 	const resourceCallbacks = {};
 	
@@ -73,14 +73,14 @@ x_376096_scp_url.loader = (function() {
         <sys_created_by>markus.kraus</sys_created_by>
         <sys_created_on>2024-01-26 23:49:58</sys_created_on>
         <sys_id>e773d5a897c04e503c2d3f56f053af8b</sys_id>
-        <sys_mod_count>4</sys_mod_count>
+        <sys_mod_count>5</sys_mod_count>
         <sys_name>x_376096_scp_url.loader</sys_name>
         <sys_package display_value="Service Catalog+ URL Opener" source="x_376096_scp_url">db2395a897c04e503c2d3f56f053af39</sys_package>
         <sys_policy/>
         <sys_scope display_value="Service Catalog+ URL Opener">db2395a897c04e503c2d3f56f053af39</sys_scope>
         <sys_update_name>sys_ui_script_e773d5a897c04e503c2d3f56f053af8b</sys_update_name>
         <sys_updated_by>markus.kraus</sys_updated_by>
-        <sys_updated_on>2024-01-26 23:53:34</sys_updated_on>
+        <sys_updated_on>2024-08-02 06:30:00</sys_updated_on>
         <ui_type>0</ui_type>
         <use_scoped_format>true</use_scoped_format>
     </sys_ui_script>

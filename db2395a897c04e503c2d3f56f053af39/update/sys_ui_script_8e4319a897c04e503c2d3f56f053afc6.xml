@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?><record_update table="sys_ui_script">
     <sys_ui_script action="INSERT_OR_UPDATE">
-        <active>true</active>
-        <description/>
+        <active>false</active>
+        <description>Adds a opener button next to URL-type Catalog Item Variables - which is missing in the Classic UI, but exists by default for the Service Portal.</description>
         <global>false</global>
         <ignore_in_now_experience>false</ignore_in_now_experience>
         <name>x_376096_scp_url.add_url_opener</name>
@@ -16,7 +16,8 @@ x_376096_scp_url.add_url_opener = (function() {
 	
 	x_376096_scp_url.loader.get('window', function ($window) {
 		$window.addLoadEvent(function () {
-			if (!$window.g_form) {
+			const g_form = $window.g_form;
+			if (!g_form) {
 				return;
 			}
 
@@ -25,17 +26,20 @@ x_376096_scp_url.add_url_opener = (function() {
 				.map(e => e.fieldName)
 			;
 			urlFields.forEach(function (technicalName) {
-				const prettyName = $window.g_form.resolvePrettyNameMap(technicalName);
-				const control = $window.g_form.getControl(technicalName);
+				const prettyName = g_form.resolvePrettyNameMap(technicalName);
+				const control = g_form.getControl(technicalName);
 				if (control && prettyName) {
 					const linkOpener = control.ownerDocument.createElement('A');
 					linkOpener.classList.add('btn', 'btn-default', 'btn-ref', 'icon-open-document-new-tab', 'icon');
 					linkOpener.addEventListener('click', function () {
-						const fieldValue = $window.g_form.getValue(prettyName);
+						const fieldValue = g_form.getValue(prettyName);
 						if (fieldValue) {
 							$window.g_navigation.open(fieldValue, '_blank');
 						}
 					});
+
+					control.addEventListener('change', updateDisabledState.bind(null, g_form, prettyName, linkOpener));
+					updateDisabledState(g_form, prettyName, linkOpener);
 
 					const linkOpenerContainer = control.ownerDocument.createElement('SPAN');
 					linkOpenerContainer.classList.add('input-group-btn');
@@ -64,6 +68,14 @@ x_376096_scp_url.add_url_opener = (function() {
 	return {
 		type: 'add_url_opener'
 	};
+
+	function updateDisabledState(g_form, fieldName, node) {
+		if (g_form.getValue(fieldName)) {
+			node.removeAttribute('disabled');
+		} else {
+			node.setAttribute('disabled', '');
+		}
+	}
 })();
 ]]></script>
         <script_name>add_url_opener</script_name>
@@ -71,14 +83,14 @@ x_376096_scp_url.add_url_opener = (function() {
         <sys_created_by>markus.kraus</sys_created_by>
         <sys_created_on>2024-01-26 23:49:12</sys_created_on>
         <sys_id>8e4319a897c04e503c2d3f56f053afc6</sys_id>
-        <sys_mod_count>10</sys_mod_count>
+        <sys_mod_count>14</sys_mod_count>
         <sys_name>x_376096_scp_url.add_url_opener</sys_name>
         <sys_package display_value="Service Catalog+ URL Opener" source="x_376096_scp_url">db2395a897c04e503c2d3f56f053af39</sys_package>
         <sys_policy/>
         <sys_scope display_value="Service Catalog+ URL Opener">db2395a897c04e503c2d3f56f053af39</sys_scope>
         <sys_update_name>sys_ui_script_8e4319a897c04e503c2d3f56f053afc6</sys_update_name>
         <sys_updated_by>markus.kraus</sys_updated_by>
-        <sys_updated_on>2024-01-27 00:34:15</sys_updated_on>
+        <sys_updated_on>2024-08-02 06:58:42</sys_updated_on>
         <ui_type>0</ui_type>
         <use_scoped_format>true</use_scoped_format>
     </sys_ui_script>
